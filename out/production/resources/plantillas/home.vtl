@@ -1,0 +1,87 @@
+#parse("./plantillas/estaticos/header.vtl")
+<!-- SELECT2 EXAMPLE -->
+<div class="box box-default">
+    <div class="box-header with-border">
+        <h3 class="box-title">Encuesta</h3>
+    </div>
+    <!-- /.box-header -->
+    <form >
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Nombre</label>
+                        <input type="text" class="form-control" name="nombre" id="nombre" required>
+                    </div>
+                    <!-- /.form-group -->
+                </div>
+                <!-- /.col -->
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Nivel Escolar</label>
+                        <select class="form-control select2" id="nivele" name="nivele" style="width: 100%;" required>
+                            <option selected="selected" value="Basico">Básico</option>
+                            <option value="Medio">Medio</option>
+                            <option value="Grado Universitario">Grado Universitario</option>
+                            <option value="Postgrado">Postgrado</option>
+                            <option value="Doctorado">Doctorado</option>
+                        </select>
+                    </div>
+                    <!-- /.form-group -->
+                    <!-- /.form-group -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Sector</label>
+                        <input type="text" class="form-control" name="sector" id="sector" required>
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+    </form>
+    <!-- /.box-body -->
+    <div class="box-footer">
+        <button class="btn btn-primary" onclick="guardar()">Guardar</button>
+        <button class="btn btn-default" onclick="cancelar()">Cancelar</button>
+    </div>
+</div>
+
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title">Listado</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body no-padding">
+        <table class="table table-striped">
+            <tr>
+                <th style="width: 10px">Código</th>
+                <th>Nombre</th>
+                <th>Sector</th>
+                <th style="width: 40px">Nivel Escolar</th>
+                <th>Latitud</th>
+                <th>Longitud</th>
+                <th>Acción</th>
+            </tr>
+
+            <tbody id="encuestaTable">
+                <tr>
+                    <td><span contenteditable="true">hola</span></td>
+                    <td><span contenteditable="true">hola</span></td>
+                    <td><span contenteditable="true">hola</span></td>
+                    <td><span contenteditable="true">hola</span></td>
+                    <td><span contenteditable="true">hola</span></td>
+                    <td><span contenteditable="true">hola</span></td>
+                    <td><span contenteditable="true">hola</span></td>
+                </tr>
+
+            </tbody>
+
+
+        </table>
+    </div>
+<!-- /.box -->
+#parse("./plantillas/estaticos/footer.vtl")
