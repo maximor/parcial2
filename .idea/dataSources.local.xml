@@ -10,5 +10,13 @@
       <user-name>sa</user-name>
       <introspection-schemas>ENCUESTA:*</introspection-schemas>
     </data-source>
+    <data-source name="hibernate.cfg.xml/Hibernate" uuid="4dc9caf4-4adc-4f79-85a3-30e4d737a227">
+      <database-info product="H2" version="1.4.196 (2017-06-10)" jdbc-version="4.0" driver-name="H2 JDBC Driver" driver-version="1.4.196 (2017-06-10)">
+        <identifier-quote-string>&quot;</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="upper" quoted-identifiers="exact" />
+      <user-name>sa</user-name>
+      <introspection-schemas>ENCUESTA:</introspection-schemas>
+    </data-source>
   </component>
 </project>

@@ -16,6 +16,7 @@ public class app {
 
     public static void main(String[] args){
         staticFileLocation("publico");
+        port(5693);
 
         try{
             CreadorDB.Init();

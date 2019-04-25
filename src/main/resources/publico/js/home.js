@@ -3,6 +3,7 @@ let request = indexedDB.open("encuestadb", 1);
 
 var latitud = 0;
 var longitud = 0;
+
 function getLocation() {
     if(navigator.geolocation){
         navigator.geolocation.getCurrentPosition(locationt);
@@ -14,6 +15,7 @@ function getLocation() {
 function locationt(posicion) {
     latitud = posicion.coords.latitude;
     longitud = posicion.coords.longitude;
+
 }
 getLocation();
 
@@ -63,20 +65,24 @@ function encuestas() {
             output += "</tr>";
             cursor.continue();
         }
-        $.get('/encuestas', function (datos) {
-            datos.forEach(function (t) {
-                output += "<tr>";
-                output += "<td>"+t.codigo+"</td>";
-                output += "<td style='cursor: pointer'>"+t.nombre+"</td>";
-                output += "<td style='cursor: pointer'>"+t.sector+"</td>";
-                output += "<td style='cursor: pointer'>"+t.nivelEscolar+"</td>";
-                output += "<td>"+t.latitud+"</td>";
-                output += "<td>"+t.longitud+"</td>";
-                output += "<td>Guardado</td>";
-                output += "</tr>";
+
+        if(estado == 'Online'){
+            $.get('/encuestas', function (datos) {
+                datos.forEach(function (t) {
+                    output += "<tr>";
+                    output += "<td>"+t.codigo+"</td>";
+                    output += "<td style='cursor: pointer'>"+t.nombre+"</td>";
+                    output += "<td style='cursor: pointer'>"+t.sector+"</td>";
+                    output += "<td style='cursor: pointer'>"+t.nivelEscolar+"</td>";
+                    output += "<td>"+t.latitud+"</td>";
+                    output += "<td>"+t.longitud+"</td>";
+                    output += "<td>Guardado</td>";
+                    output += "</tr>";
+                });
+                $('#encuestaTable').html(output);
             });
-            $('#encuestaTable').html(output);
-        });
+        }
+
 
     }
 
@@ -96,20 +102,28 @@ function eliminarEncuesta(codigo) {
 
 //sincronizar datos
 function sincronizar(codigo) {
-    var transaction = db.transaction(["encuestadb"], "readwrite");
-    let store = transaction.objectStore("encuestadb");
 
-    let request = store.get(codigo);
+    if(estado == "Offline"){
+        alert('No puede sincronizar porque no tiene Internet ahora mismo');
+    }else{
+        console.log("entro reeady");
+        var transaction = db.transaction(["encuestadb"], "readwrite");
+        let store = transaction.objectStore("encuestadb");
 
-    request.onsuccess = function () {
-        let data = request.result;
-        $.post('/crear', JSON.stringify(data), function (elemento) {
-            console.log("entro");
+        let request = store.get(codigo);
 
-        });
+        request.onsuccess = function () {
+            let data = request.result;
+            $.post('/crear', JSON.stringify(data), function (elemento) {
+                console.log("entro");
 
-        eliminarEncuesta(codigo);
+            });
+
+            eliminarEncuesta(codigo);
+            // encuestas();
+        }
     }
+
 }
 
 //actualizar los datos
@@ -158,6 +172,10 @@ function guardar() {
     let nivelEscolar = $("#nivele");
     let sector = $("#sector");
 
+
+    if(estado == undefined || estado == null || estado == '')
+        estado = "Offline";
+    console.log("Estado de la conexion: " + estado);
     if(estado === "Online"){
         $.post('/crear',
             `{'nombre': '${nombre.val()}', 'nivelEscolar': '${nivelEscolar.val()}', 'sector': '${sector.val()}', 'latitud':${latitud}, 'longitud':${longitud}}`,
@@ -171,7 +189,9 @@ function guardar() {
     }
 
     if(estado === "Offline"){
-        console.log("Ahora mismo estás Offline! La información será guardada temporalmente en el browser");
+
+
+        alert("Ahora mismo estás Offline! La información será guardada temporalmente en el browser");
 
         let transaction = db.transaction(["encuestadb"], "readwrite");
 

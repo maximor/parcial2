@@ -4,7 +4,7 @@
     <facet type="hibernate" name="Hibernate">
       <configuration>
         <datasource-map>
-          <unit-entry name="hibernate.cfg.xml" />
+          <unit-entry name="hibernate.cfg.xml" value="4dc9caf4-4adc-4f79-85a3-30e4d737a227" />
         </datasource-map>
         <naming-strategy-map />
         <deploymentDescriptor name="hibernate.cfg.xml" url="file://$MODULE_DIR$/../../src/main/resources/hibernate.cfg.xml" />
@@ -23,6 +23,7 @@
     <orderEntry type="library" name="Gradle: com.sparkjava:spark-core:2.7.2" level="project" />
     <orderEntry type="library" name="Gradle: org.apache.velocity:velocity:1.7" level="project" />
     <orderEntry type="library" name="Gradle: org.slf4j:slf4j-simple:1.7.21" level="project" />
+    <orderEntry type="library" name="Gradle: com.h2database:h2:1.4.197" level="project" />
     <orderEntry type="library" name="Gradle: org.jasypt:jasypt:1.9.2" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.persistence:org.eclipse.persistence.jpa:2.7.4" level="project" />
     <orderEntry type="library" name="Gradle: org.hibernate:hibernate-core:5.4.2.Final" level="project" />
@@ -67,6 +68,5 @@
     <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-security:9.4.8.v20171121" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-client:9.4.8.v20171121" level="project" />
     <orderEntry type="library" name="Gradle: org.slf4j:slf4j-api:1.7.21" level="project" />
-    <orderEntry type="library" name="Gradle: com.h2database:h2:1.4.197" level="project" />
   </component>
 </module>

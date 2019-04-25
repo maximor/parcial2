@@ -1,0 +1,25 @@
+CACHE MANIFEST
+# v7 - Para obligar al cambio bueno mantener una versión.
+
+CACHE:
+/
+plugins/bootstrap/dist/css/bootstrap.min.css
+plugins/font-awesome/css/font-awesome.min.css
+plugins/Ionicons/css/ionicons.min.css
+css/AdminLTE.css
+css/skins/skin-blue.min.css
+plugins/jquery/dist/jquery.min.js
+plugins/bootstrap/dist/js/bootstrap.min.js
+js/adminlte.js
+js/home.js
+js/mapa.js
+
+
+NETWORK:
+/mapa
+/encuestas
+/crear
+
+
+
+FALLBACK:
