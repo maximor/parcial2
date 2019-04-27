@@ -2,7 +2,8 @@ CACHE MANIFEST
 # v7 - Para obligar al cambio bueno mantener una versión.
 
 CACHE:
-/
+img/user2-160x160.jpg
+plugins/font-awesome/fonts/fontawesome-webfont.woff2?v=4.7.0
 plugins/bootstrap/dist/css/bootstrap.min.css
 plugins/font-awesome/css/font-awesome.min.css
 plugins/Ionicons/css/ionicons.min.css
@@ -16,10 +17,7 @@ js/mapa.js
 
 
 NETWORK:
-/mapa
-/encuestas
-/crear
-
+*
 
 
 FALLBACK:

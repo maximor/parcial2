@@ -4,6 +4,30 @@ let request = indexedDB.open("encuestadb", 1);
 var latitud = 0;
 var longitud = 0;
 
+const online = $("#online");
+const contenidoonline = $("#contenidoonline");
+
+var estado = "";
+if(navigator.onLine){
+    contenidoonline.addClass("text-success");
+    contenidoonline.text("Online");
+    estado = "Online"
+}
+
+window.addEventListener("online", function () {
+    contenidoonline.addClass("text-success");
+    contenidoonline.text("Online");
+    estado = "Online"
+})
+
+window.addEventListener("offline", function () {
+    contenidoonline.addClass("text-danger");
+    contenidoonline.text("Offline");
+    estado = "Offline"
+})
+
+
+console.log("Estado de la pagina: " +  estado);
 function getLocation() {
     if(navigator.geolocation){
         navigator.geolocation.getCurrentPosition(locationt);
@@ -31,7 +55,6 @@ request.onupgradeneeded = function (e) {
 
 //Success
 request.onsuccess = function (e) {
-    console.log('Success: Base de datos Abierta');
     db = e.target.result;
 
     //Buscar encuesta
@@ -65,25 +88,24 @@ function encuestas() {
             output += "</tr>";
             cursor.continue();
         }
+        $('#encuestaTable').html(output);
+    }
 
-        if(estado == 'Online'){
-            $.get('/encuestas', function (datos) {
-                datos.forEach(function (t) {
-                    output += "<tr>";
-                    output += "<td>"+t.codigo+"</td>";
-                    output += "<td style='cursor: pointer'>"+t.nombre+"</td>";
-                    output += "<td style='cursor: pointer'>"+t.sector+"</td>";
-                    output += "<td style='cursor: pointer'>"+t.nivelEscolar+"</td>";
-                    output += "<td>"+t.latitud+"</td>";
-                    output += "<td>"+t.longitud+"</td>";
-                    output += "<td>Guardado</td>";
-                    output += "</tr>";
-                });
-                $('#encuestaTable').html(output);
+    if(estado == 'Online'){
+        $.get('/encuestas', function (datos) {
+            datos.forEach(function (t) {
+                output += "<tr>";
+                output += "<td>"+t.codigo+"</td>";
+                output += "<td style='cursor: pointer'>"+t.nombre+"</td>";
+                output += "<td style='cursor: pointer'>"+t.sector+"</td>";
+                output += "<td style='cursor: pointer'>"+t.nivelEscolar+"</td>";
+                output += "<td>"+t.latitud+"</td>";
+                output += "<td>"+t.longitud+"</td>";
+                output += "<td>Guardado</td>";
+                output += "</tr>";
             });
-        }
-
-
+            $('#encuestaTable').html(output);
+        });
     }
 
 }
@@ -102,8 +124,7 @@ function eliminarEncuesta(codigo) {
 
 //sincronizar datos
 function sincronizar(codigo) {
-
-    if(estado == "Offline"){
+    if(estado == "Offline" || estado == ''){
         alert('No puede sincronizar porque no tiene Internet ahora mismo');
     }else{
         console.log("entro reeady");
@@ -168,59 +189,57 @@ function cancelar() {
 }
 
 function guardar() {
+    console.log("Esto de la pagina: " + estado);
     let nombre = $("#nombre");
     let nivelEscolar = $("#nivele");
     let sector = $("#sector");
 
+    if(nombre.val() != null || nombre.val() != '' || sector.val() != null || sector.val() != ''){
+        if(estado == undefined || estado == null || estado == '')
+            estado = "Offline";
+        console.log("Estado de la conexion: " + estado);
+        if(estado === "Online"){
+            $.post('/crear',
+                `{'nombre': '${nombre.val()}', 'nivelEscolar': '${nivelEscolar.val()}', 'sector': '${sector.val()}', 'latitud':${latitud}, 'longitud':${longitud}}`,
+            function (data) {
+                encuestas();
+            });
+            cancelar();
+            encuestas();
+        }
 
-    if(estado == undefined || estado == null || estado == '')
-        estado = "Offline";
-    console.log("Estado de la conexion: " + estado);
-    if(estado === "Online"){
-        $.post('/crear',
-            `{'nombre': '${nombre.val()}', 'nivelEscolar': '${nivelEscolar.val()}', 'sector': '${sector.val()}', 'latitud':${latitud}, 'longitud':${longitud}}`,
-            function (data, status, j) {
-            console.log('Status:' + status + ', data:' + data);
-        }).done(function () {
-            console.log("nannana");
-        });
-        cancelar();
-        encuestas();
+        if(estado === "Offline" || estado == ''){
+
+
+            alert("Ahora mismo estás Offline! La información será guardada temporalmente en el browser");
+
+            let transaction = db.transaction(["encuestadb"], "readwrite");
+
+            //Ask for ObjectStore
+            let store = transaction.objectStore("encuestadb");
+
+            let encuesta = {
+                nombre: nombre.val(),
+                sector: sector.val(),
+                nivelEscolar: nivelEscolar.val(),
+                latitud: latitud,
+                longitud: longitud
+            }
+
+            let request = store.add(encuesta);
+
+            //success
+            request.onsuccess = function (e) {
+                encuestas();
+                window.location.href="/";
+            }
+
+            request.onerror = function (e) {
+                console.log('Error', e.target.error.name);
+            }
+
+        }
     }
-
-    if(estado === "Offline"){
-
-
-        alert("Ahora mismo estás Offline! La información será guardada temporalmente en el browser");
-
-        let transaction = db.transaction(["encuestadb"], "readwrite");
-
-        //Ask for ObjectStore
-        let store = transaction.objectStore("encuestadb");
-
-        let encuesta = {
-            nombre: nombre.val(),
-            sector: sector.val(),
-            nivelEscolar: nivelEscolar.val(),
-            latitud: latitud,
-            longitud: longitud
-        }
-
-        let request = store.add(encuesta);
-
-        //success
-        request.onsuccess = function (e) {
-            window.location.href="/";
-        }
-
-        request.onerror = function (e) {
-            console.log('Error', e.target.error.name);
-        }
-
-    }
-
-
-
 }
 
 

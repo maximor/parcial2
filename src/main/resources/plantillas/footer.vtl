@@ -33,31 +33,31 @@ immediately after the control sidebar -->
 <script src="../js/home.js"></script>
 <script src="../js/mapa.js"></script>
 
-<script>
-
-
-    const online = $("#online");
-    const contenidoonline = $("#contenidoonline");
-
-    var estado = "";
-    if(navigator.onLine){
-        contenidoonline.addClass("text-success");
-        contenidoonline.text("Online");
-        estado = "Online"
-    }
-
-    window.addEventListener("online", function () {
-        contenidoonline.addClass("text-success");
-        contenidoonline.text("Online");
-        estado = "Online"
-    })
-
-    window.addEventListener("offline", function () {
-        contenidoonline.addClass("text-danger");
-        contenidoonline.text("Offline");
-        estado = "Offline"
-    })
-</script>
+##<script>
+##
+##
+##    const online = $("#online");
+##    const contenidoonline = $("#contenidoonline");
+##
+##    var estado = "";
+##    if(navigator.onLine){
+##        contenidoonline.addClass("text-success");
+##        contenidoonline.text("Online");
+##        estado = "Online"
+##    }
+##
+##    window.addEventListener("online", function () {
+##        contenidoonline.addClass("text-success");
+##        contenidoonline.text("Online");
+##        estado = "Online"
+##    })
+##
+##    window.addEventListener("offline", function () {
+##        contenidoonline.addClass("text-danger");
+##        contenidoonline.text("Offline");
+##        estado = "Offline"
+##    })
+##</script>
 
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the

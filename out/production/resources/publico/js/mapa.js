@@ -3,6 +3,26 @@ $(function($) {
     var script = document.createElement('script');
     script.src = "//maps.googleapis.com/maps/api/js?sensor=false&callback=initialize";
     document.body.appendChild(script);
+
+    var estado = "";
+    if(navigator.onLine){
+        contenidoonline.addClass("text-success");
+        contenidoonline.text("Online");
+        estado = "Online"
+    }
+
+    window.addEventListener("online", function () {
+        contenidoonline.addClass("text-success");
+        contenidoonline.text("Online");
+        estado = "Online"
+    })
+
+    window.addEventListener("offline", function () {
+        contenidoonline.addClass("text-danger");
+        contenidoonline.text("Offline");
+        estado = "Offline"
+    })
+
 });
 
 function getLocation(){
